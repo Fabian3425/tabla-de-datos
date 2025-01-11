@@ -1,12 +1,11 @@
 import { useFetch } from "./useFetch";
 import React from "react";
 import DataTable from "react-data-table-component"
+import Filter from "./components/Filter"
 
 function App() {
 
-  const { data, loading, error } = useFetch(
-    "https://jsonplaceholder.typicode.com/users"
-  );
+  const { data, loading, error } = useFetch("https://jsonplaceholder.typicode.com/users");
 
   const columns = [
     {
@@ -57,6 +56,7 @@ function App() {
       <h1>Tabla de datos</h1>
       {error && <span>Error: {error}</span>}
       {loading && <span>Loading...</span>}
+      <Filter/>
       <DataTable 
         columns={columns}
         data={data || []}
