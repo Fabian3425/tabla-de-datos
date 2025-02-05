@@ -38,7 +38,6 @@ function App() {
 
   return (
     <ContenedorApp >
-      
       <ContenedorHead>
         <div>
           <h1>Tabla de usuarios</h1>
@@ -61,7 +60,6 @@ function App() {
           <Button onClick={() => setFilterText("")}>Limpiar</Button>
         </div>
         </ContenedorFiltros>
-        
       </ContenedorHead>
       <DataTable
         columns={columns}
