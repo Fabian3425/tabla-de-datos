@@ -2,7 +2,7 @@ import { useFetch } from "./useFetch";
 import React, { useMemo, useState } from "react";
 import DataTable from "react-data-table-component";
 import InputSearch from "./components/InputSearch";
-import { Button} from "./elements/filterStyle"
+import { ContenedorHead, ContenedorApp, ContenedorFiltros, Button} from "./elements/filterStyle"
 
 function App() {
   const { data, loading, error } = useFetch(
@@ -10,6 +10,7 @@ function App() {
   );
 
   const [filterText, setFilterText] = useState("");
+  const [filterEmail, setFilterEmail] = useState("");
 
   const columns = [
     { name: "ID", selector: (row) => row.id, sortable: true,},
@@ -23,41 +24,53 @@ function App() {
      ${row.address.city}, ${row.address.zipcode}`, sortable: true,},
   ];
 
-  //Este código filtra una lista de objetos llamada userNames, para 
-  // devolver aquellos que cumplen con cierta condiciones :3
-  const filteredItems = (data || []).filter((item) =>
-      item.name && item.name.toLowerCase().includes(filterText.toLowerCase())
-  );
+  const filteredData = useMemo(() => {  
+      if(!data) return [];
 
-  const subHeaderComponentMemo = useMemo(() => {
-    return (
-      <div>
-        <InputSearch
-          placeholder="Buscar por nombre..."
-          value={filterText}
-          onChange={(e) => setFilterText(e.target.value)}
-        />
-        <Button onClick={() => setFilterText("")}>Limpiar</Button>
-      </div>
-    );
-  }, [filterText]);
+      return data.filter((item) =>
+        item.name.toLowerCase().includes(filterText.toLowerCase()) &&
+        item.email.toLowerCase().includes(filterEmail.toLowerCase())
+      );
+  }, [data, filterText, filterEmail]);
 
   if (loading) return <p>Cargando datos...</p>;
   if (error) return <p>Error al cargar los datos.</p>;
 
   return (
-    <div>
-      <h1>Tabla de datos</h1>
+    <ContenedorApp >
+      
+      <ContenedorHead>
+        <div>
+          <h1>Tabla de usuarios</h1>
+        </div>
+        <ContenedorFiltros>
+          <div>
+          <InputSearch 
+          placeholder="Buscar por nombre..." 
+          value={filterText} 
+          onChange={(e) => setFilterText(e.target.value)} 
+          />
+          <Button onClick={() => setFilterText("")}>Limpiar</Button>
+        </div>
+        <div>
+          <InputSearch 
+            placeholder="Buscar por email..." 
+            value={filterEmail} 
+            onChange={(e) => setFilterEmail(e.target.value)} 
+          />
+          <Button onClick={() => setFilterText("")}>Limpiar</Button>
+        </div>
+        </ContenedorFiltros>
+        
+      </ContenedorHead>
       <DataTable
-        title="Usuarios"
         columns={columns}
-        data={filteredItems}
+        data={filteredData}
         pagination
         progressPending={loading}
         subHeader
-        subHeaderComponent={subHeaderComponentMemo}
       />
-    </div>
+    </ContenedorApp >
   );
 }
 

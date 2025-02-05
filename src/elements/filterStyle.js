@@ -28,4 +28,24 @@ const Button = styled.button`
     }
 `;
 
-export { Input, Button};
+const ContenedorFiltros = styled.div`
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+    align-items: center;
+`;
+
+const ContenedorHead = styled.div`
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    
+`;
+
+const ContenedorApp = styled.div`
+    max-width:1200px;
+    width:100%;
+    margin:auto;
+`;
+
+export { Input, Button, ContenedorFiltros, ContenedorApp, ContenedorHead};
